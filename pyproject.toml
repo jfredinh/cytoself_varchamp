@@ -1,18 +1,76 @@
+[project]
+name = "cellir"
+version = "0.1.0"
+description = "An intermediate reprenstation for cells"
+readme = "README.md"
+authors = [
+    { name = "Ankur Kumar", email = "ank@leoank.me" }
+]
+requires-python = ">=3.10"
+dependencies = [
+  "triton",
+  "setuptools",
+  "matplotlib>=3.10.1",
+  "pandas>=2.2.3",
+  "cuda-python>=12.8.0",
+  "polars>=1.26.0",
+  "cpgdata>=0.5.0",
+  "numpy>=2.2.4",
+  "pyarrow>=13.0.0",
+  "tifffile>=2025.3.13",
+  "zarr>=2.18.3",
+  "scikit-image>=0.25.2",
+  "imagecodecs>=2024.12.30",
+]
+
+[project.optional-dependencies]
+cpu = [
+  "torch",
+  "torchvision",
+]
+cu124 = [
+  "torch",
+  "torchvision",
+]
+dev = [
+  "ipython",
+  "marimo",
+  "pytest",
+  "ruff",
+  "marimo"
+]
+
+[tool.uv]
+conflicts = [
+  [
+    { extra = "cpu" },
+    { extra = "cu124" },
+  ],
+]
+
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu124", extra = "cu124" },
+]
+torchvision = [
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu124", extra = "cu124" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[project.scripts]
+cellir = "cellir.cli:main"
+
 [build-system]
-requires = [
-    "setuptools>=61.0",
-    "wheel"
-]
+requires = ["setuptools", "torch", "numpy"]
 build-backend = "setuptools.build_meta"
-
-[tool.pytest.ini_options]
-markers = [
-    "slow: marks tests as slow (deselect with '--runslow \"run slow\"')",
-    "serial",
-]
-
-[tool.ruff.lint]
-select = ["ALL"]
-
-[tool.ruff]
-line-length = 120

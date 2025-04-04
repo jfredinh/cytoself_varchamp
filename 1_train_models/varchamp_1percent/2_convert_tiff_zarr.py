@@ -52,6 +52,8 @@ def get_img_paths(imagecsv_dir: str) -> pl.DataFrame:
     return pl.concat(image_dat).rename({"ImageNumber": "Metadata_ImageNumber"})
 
 
+
+
 def tiff2zarr(tiffpath: str) -> None:
     """Rescales and converts tiff.
 
@@ -107,7 +109,7 @@ def main() -> None:
 
     n_thread = 40
 
-    image_dat = get_img_paths(imagecsv_dir=imagecsv_dir)
+    image_dat   = get_img_paths(imagecsv_dir=imagecsv_dir)
 
     # Create useful filepaths
     image_dat = image_dat.with_columns(
